@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>WifiCoffee</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" type="image/png" href="favicon.png">
+	<script src="script.js"></script>
+	<link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+	<!-- Navbar -->
+	<div class="w3-top">
+	  <ul class="w3-navbar w3-brown w3-card-2 w3-center w3-large">
+	    <li style="width:20%">&nbsp;</li>
+	    <li style="width:20%"><a href="index.html" class="w3-padding-large">Home</a></li>
+	    <li style="width:20%"><a href="debug.html" class="w3-padding-large">Debug</a></li>
+	    <li style="width:20%"><a href="#" class="w3-padding-large">Statistics</a></li>
+	    <li style="width:20%">&nbsp;</li>
+	  </ul>
+	</div>	
+
+	<!-- Header -->
+	<div class="w3-container w3-light-grey w3-center w3-padding-32">
+	  	<h1 class="w3-margin w3-jumbo w3-brown">WifiCoffee</h1>	  	
+	</div>
+
+	<div class="w3-container w3-light-grey w3-center w3-padding-16">
+		<p id="brewing_status" class="w3-xlarge">How many cups do you want to brew?</p>
+	</div>
+
+	<div class="w3-container w3-light-grey w3-center w3-padding-16">
+		<button style="background-color: Transparent; color: black" class="w3-btn w3-padding-16 w3-large w3-margin-top" onclick="MakeCoffee(1)">1
+			<img src="coffeecup.png">
+		</button>
+	</div>
+	
+	<div class="w3-container w3-light-grey w3-center w3-padding-16">
+		<button style="background-color: Transparent; color: black" class="w3-btn w3-padding-16 w3-large w3-margin-top" onclick="MakeCoffee(0)">2
+			<img src="coffeecup.png">
+		</button>
+	</div>
+
+	<!-- Footer -->
+	<footer class="w3-container w3-padding-16 w3-center w3-brown">
+	 <p>Created by <a href="http://www.wilcovandenbrink.com" target="_blank">Wilco van den Brink</a></p>
+	 <p>Powered by <a href="http://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+	</footer>
+	
+</body>
+</html>
