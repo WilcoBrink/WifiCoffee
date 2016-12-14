@@ -19,6 +19,24 @@ ESP8266WebServer server(80);
 #define	PIN_MUGSENSORRIGHT	14
 #define	PIN_SWITCH			4
 
+enum StatusCodes
+{
+	WaitingForCommand,
+	BrewingOneCup,
+	BrewingTwoCup,
+	BrewingFinished,
+	WaterEmpty,
+	FilterNotAvailable,
+	FilterNotRefilled,
+	MugMissingLeft,
+	MugMissingMiddle,
+	MugMissingRight,
+	MugMissingBoth,
+	InvalidCommand
+};
+
+StatusCodes brewingStatus = WaitingForCommand;
+
 void setup() {
 	pinMode(PIN_RELAY, OUTPUT);
 	
@@ -54,6 +72,10 @@ void setup() {
 		SendDebugData();
 	});
 
+	server.on("/brewing_status", HTTP_GET, []() {
+		SendBrewingStatus();
+	});
+
 	server.serveStatic("/index.html", SPIFFS, "/index.html");
 	server.serveStatic("/script.js", SPIFFS, "/script.js");
 	server.serveStatic("/stylesheet.css", SPIFFS, "/stylesheet.css");
@@ -70,9 +92,15 @@ void loop(void){
 }
 
 void MakeCoffee(int amount) {
-	server.send(200, "text/plain", "Making Coffee");
-	delay(1000);
-	server.send(200, "text/plain", "Finished");
+	if (amount == 1)
+		brewingStatus = BrewingOneCup;
+	else if (amount == 2)
+		brewingStatus = BrewingTwoCup;
+	else
+		brewingStatus = InvalidCommand;
+	yield();
+	//delay(1000);
+	brewingStatus = BrewingFinished;
 }
 
 void SendDebugData() {
@@ -89,4 +117,21 @@ void SendDebugData() {
 	);
 
 	server.send(200, "text/xml", temp);
+}
+
+void SendBrewingStatus() {
+	switch (brewingStatus) {
+	case WaitingForCommand:server.send(200, "text/plain", "How many cups do you want to brew?"); break;
+	case BrewingOneCup:server.send(200, "text/plain", "Brewing one cup of coffee"); break;
+	case BrewingTwoCup:server.send(200, "text/plain", "Brewing two cups of coffee"); break;
+	case BrewingFinished:server.send(200, "text/plain", "Brewing has finished"); break;
+	case WaterEmpty:server.send(200, "text/plain", "Please refill water reservoir"); break;
+	case FilterNotAvailable:server.send(200, "text/plain", "Please place the filter tray"); break;
+	case FilterNotRefilled:server.send(200, "text/plain", "Please refill the filter tray"); break;
+	case MugMissingLeft:server.send(200, "text/plain", "Please place a mug on the left"); break;
+	case MugMissingMiddle:server.send(200, "text/plain", "Please place a mug in the middle"); break;
+	case MugMissingRight:server.send(200, "text/plain", "Please place a mug on the right"); break;
+	case MugMissingBoth:server.send(200, "text/plain", "Please place both mugs"); break;
+	default:server.send(200, "text/plain", "Invalid brewing status");break;
+	}
 }
