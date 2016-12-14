@@ -14,9 +14,9 @@ function GetLEDState(){
 	setTimeout('GetLEDState()', 5000);
 }
 
-function MakeCoffee(state){
+function MakeCoffee(amount){
 	var request = new XMLHttpRequest();
-	request.onreadystatechange = function(){
+	/*request.onreadystatechange = function(){
 		if(this.readyState == 4){
 			if(this.status == 200){
 				if(this.responseText != null){
@@ -24,8 +24,8 @@ function MakeCoffee(state){
 				}
 			}
 		}
-	}
-	request.open("POST", "make_coffee?value=" + state);
+	}*/
+	request.open("POST", "make_coffee?value=" + amount);
 	request.send(null);
 }
 
@@ -48,4 +48,20 @@ function GetDebugData(){
 	request.open("GET", "debug_data", true);
 	request.send(null);
 	setTimeout('GetDebugData()', 1000);
+}
+
+function GetBrewingStatus(){
+	var request = new XMLHttpRequest();
+	request.onreadystatechange = function(){
+		if(this.readyState == 4){
+			if(this.status == 200){
+				if(this.responseText != null){
+					document.getElementById("brewing_status").innerHTML = this.responseText;
+				}
+			}
+		}
+	}
+	request.open("GET", "brewing_status", true);
+	request.send(null);
+	setTimeout('GetBrewingStatus()', 200);
 }
