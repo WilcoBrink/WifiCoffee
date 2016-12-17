@@ -32,6 +32,10 @@ _ReSharper*/
 # NCrunch
 *.ncrunch*
 .*crunch*.local.xml
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
  
 # OS Generated
 .DS_Store
